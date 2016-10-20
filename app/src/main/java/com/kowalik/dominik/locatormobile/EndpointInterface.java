@@ -12,6 +12,6 @@ import retrofit2.http.Path;
  */
 
 public interface EndpointInterface{
-    @GET("getUser")
+    @GET("/getLocationInfo")
     Call<LocationInfoImpl> getUser();
 }
