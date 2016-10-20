@@ -1,9 +1,15 @@
 <resources>
+
     <string name="app_name">LocatorMobile</string>
+    <!--
+    Values of buttons, labels
+    -->
+    <string name="downloadButtonText">Pobierz</string>
     <string name="response">response</string>
 
-    <string name="host">192.168.1.15</string>
-    <string name="port">8080</string>
-    <string name="http">http://</string>
+    <!--
+    Configuration values
+    -->
+    <string name="url">http://192.168.43.134:40001</string>
 </resources>
 
