@@ -9,6 +9,7 @@ import android.location.LocationManager;
 import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -25,11 +26,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class MainActivity extends AppCompatActivity implements LocationListener {
 
     TextView responTextView;
+    Button getDataButton;
+
     Location location;
-    Button buttonGetData;
-    LocationManager locationManager;
-    String provider;
-    boolean enabled;
 
     /**
      * aplication's starting point
@@ -41,56 +40,18 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         setContentView(R.layout.activity_main);
 
         responTextView = (TextView) findViewById(R.id.response);
-        buttonGetData = (Button) findViewById(R.id.button);
+        getDataButton = (Button) findViewById(R.id.button);
 
         suggestToTurnOnGpsIfOff();
-
-
-        // Get the location manager
-        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        // Define the criteria how to select the locatioin provider -> use
-        // default
-        Criteria criteria = new Criteria();
-        provider = locationManager.getBestProvider(criteria, false);
-
-        final Location location = locationManager.getLastKnownLocation(provider);
-
-        if (location != null) {
-            onLocationChanged(location);
-        } else {
-            responTextView.setText("Location not available");
-        }
+        onLocationChanged(getLocation());
 /**
  * Sending request and getting response using retrofit 2 library after clicking buttonGetData
  */
-
-        buttonGetData.setOnClickListener(new TextView.OnClickListener() {
+        getDataButton.setOnClickListener(new TextView.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final Retrofit retrofit = new Retrofit.Builder()
-                        .baseUrl(getResources().getString(R.string.url))
-                        .addConverterFactory(GsonConverterFactory.create())
-                        .build();
-
-                LocationInfo locationInfo = new LocationInfo(location);
-
-                EndpointInterface endpointInterface = retrofit.create(EndpointInterface.class);
-
-                Call<LocationInfo> call1 = endpointInterface.getLocation();
-                Call<LocationInfo> call = endpointInterface.setLocation(locationInfo);
-
-                call.enqueue(new Callback<LocationInfo>() {
-                    @Override
-                    public void onResponse(Call<LocationInfo> call, Response<LocationInfo> response) {
-                      //  responTextView.setText(response.body().toString());
-                    }
-
-                    @Override
-                    public void onFailure(Call<LocationInfo> call, Throwable t) {
-                    }
-                });
-            }
-        });
+            sendLocation(location);
+        }});
     }
 
     /**
@@ -98,7 +59,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
      */
     private void suggestToTurnOnGpsIfOff() {
         LocationManager service = (LocationManager) getSystemService(LOCATION_SERVICE);
-        enabled = service
+        boolean enabled = service
                 .isProviderEnabled(LocationManager.GPS_PROVIDER);
 
         responTextView.setText(enabled + "");
@@ -109,10 +70,45 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         }
     }
 
-    /**
-     *
-     */
+    public void sendLocation(Location location){
+        final Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(getResources().getString(R.string.url))
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
 
+        LocationInfo locationInfo = new LocationInfo(location);
+        Log.d("Actuall locationInfo",locationInfo.toString());
+
+        EndpointInterface endpointInterface = retrofit.create(EndpointInterface.class);
+        Call<LocationInfo> call = endpointInterface.setLocation(locationInfo);
+        call.enqueue(new Callback<LocationInfo>() {
+            @Override
+            public void onResponse(Call<LocationInfo> call, Response<LocationInfo> response) {//responTextView.setText(response.body().toString());
+            }
+
+            @Override
+            public void onFailure(Call<LocationInfo> call, Throwable t) {
+            }
+        });
+    }
+
+    public Location getLocation(){
+        // Get the location manager
+        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        // Define the criteria how to select the locatioin provider -> use
+        // default
+        Criteria criteria = new Criteria();
+        String provider = locationManager.getBestProvider(criteria, false);
+        final Location location = locationManager.getLastKnownLocation(provider);
+
+        if (location != null) {
+            onLocationChanged(location);
+        } else {
+            responTextView.setText("Location not available");
+        }
+
+        return location;
+    }
 
     @Override
     public void onLocationChanged(Location location) {

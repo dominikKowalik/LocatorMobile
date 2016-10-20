@@ -11,33 +11,12 @@ import android.location.Location;
  */
 
 public class LocationInfo{
-
     double latitude;
     double longitude;
-    float speed;
-    float bearing;
 
     public LocationInfo(Location location){
         latitude = location.getLatitude();
         longitude = location.getLongitude();
-        speed = location.getSpeed();
-        bearing = location.getBearing();
-    }
-
-    public float getBearing() {
-        return bearing;
-    }
-
-    public void setBearing(float bearing) {
-        this.bearing = bearing;
-    }
-
-    public float getSpeed() {
-        return speed;
-    }
-
-    public void setSpeed(float speed) {
-        this.speed = speed;
     }
 
     public double getLongitude() {
@@ -52,7 +31,6 @@ public class LocationInfo{
         this.latitude = latitude;
     }
 
-
     public double getLatitude() {
         return latitude;
     }
@@ -64,8 +42,6 @@ public class LocationInfo{
         return "LocationInfo{" +
                 "latitude=" + latitude +
                 ", longitude=" + longitude +
-                ", speed=" + speed +
-                ", bearing=" + bearing +
                 '}';
     }
 }
