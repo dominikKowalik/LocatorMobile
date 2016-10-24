@@ -15,7 +15,9 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.kowalik.dominik.model.LocationInfo;
+import com.kowalik.dominik.model.User;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -80,14 +82,15 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         Log.d("Actuall locationInfo",locationInfo.toString());
 
         EndpointInterface endpointInterface = retrofit.create(EndpointInterface.class);
-        Call<LocationInfo> call = endpointInterface.setLocation(locationInfo);
-        call.enqueue(new Callback<LocationInfo>() {
+        Call<Void> call = endpointInterface.setLocation(new User("1","1","1", locationInfo,null));
+        call.enqueue(new Callback<Void>() {
             @Override
-            public void onResponse(Call<LocationInfo> call, Response<LocationInfo> response) {//responTextView.setText(response.body().toString());
+            public void onResponse(Call<Void> call, Response<Void> response){
+                //responTextView.setText(response.body().toString());
             }
 
             @Override
-            public void onFailure(Call<LocationInfo> call, Throwable t) {
+            public void onFailure(Call< Void>  call, Throwable t){
             }
         });
     }
