@@ -1,5 +1,6 @@
 package com.kowalik.dominik.locatormobile;
 
+import com.kowalik.dominik.model.Account;
 import com.kowalik.dominik.model.LocationInfo;
 import com.kowalik.dominik.model.User;
 
@@ -22,21 +23,25 @@ import retrofit2.http.Path;
 public interface EndpointInterface{
 
 
-    @GET("/locator/user")
+    @GET("user")
     Call<List<User>> getAllUsers();
 
-    @POST("/locator/user")
+    @POST("register/{username}/{password}/{email}")
+    Call<Void> register(@Path("username") String username, @Path("password")
+            String password, @Path("email") String email);
+
+    @POST("register")
+    Call<Void> register(@Body Account account);
+
+    @POST("user")
     Call<Void> insertUser(@Body User user);
 
-    @GET("/locator/user/{id}")
+    @GET("user/{id}")
     Call<User> getUser(@Path("id") long id);
 
-    @GET("/locator/user/{name}/{lastName}/{emailAdress}")
-    Call<User> getUser(@Path("name") String name, @Path("lastName") String lastName, @Path("emailAdress") String emailAdress);
+    @GET("user/{username}")
+    Call<User> getUser(@Path("username") String username);
 
-    @DELETE("/locator/user")
+    @DELETE("user")
     Call<Void> deleteAllUsers();
-
-    @DELETE("/locator/user/{id}")
-    Call<Void> deleteUser(@Path("id") long id);
 }

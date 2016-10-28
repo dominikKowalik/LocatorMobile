@@ -11,5 +11,16 @@
     Configuration values
     -->
     <string name="url">http://192.168.43.134:8080</string>
+
+
+    <!--
+     view's names
+    -->
+
+    <string name="userNameTextView">Nazwa Użytkownika</string>
+    <string name="passwordTextView">Hasło</string>
+    <string name="emailTextView">Adres e-mail</string>
+    <string name="registerText">Zarejestruj Się</string>
+
 </resources>
 
