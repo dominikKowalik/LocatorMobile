@@ -2,6 +2,7 @@ package com.kowalik.dominik.locatormobile;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -43,17 +44,21 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Helpers.suggestToTurnOnGpsIfOff(context);
-                login(loginTextView.getText().toString(), passwordTextView.getText().toString());
+
+                if (Helpers.isGpsOn(context))
+                    login(loginTextView.getText().toString(), passwordTextView.getText().toString());
+                else
+                    Helpers.suggestToTurnOnGpsIfOff(context);
+
             }
         });
     }
 
-    public void login(String username,String password) {
+    public void login(final String username, final String password) {
         new ServiceGenerator(context);
 
         EndpointInterface loginService =
-                ServiceGenerator.createService(EndpointInterface.class, username,password);
+                ServiceGenerator.createService(EndpointInterface.class, username, password);
 
         Call<User> call = loginService.login(username);
         call.enqueue(new Callback<User>() {
@@ -61,9 +66,16 @@ public class LoginActivity extends AppCompatActivity {
             public void onResponse(Call<User> call, Response<User> response) {
                 if (response.isSuccessful()) {
                     Helpers.showText("Zalogowano" + response.body().toString(), context);
-                    Intent mainScreenActivity = new Intent(context,MainScreenActivity.class);
+
+                    SharedPreferences settings = getSharedPreferences("com.kowalik.dominik", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = settings.edit();
+                    editor.putString("username", username);
+                    editor.putString("password", password);
+                    editor.commit();
+
+                    Intent mainScreenActivity = new Intent(context, MainScreenActivity.class);
                     startActivity(mainScreenActivity);
-                }else{
+                } else {
                     Helpers.showText("Użytkownik nie istnieje", context);
                 }
             }
@@ -71,7 +83,6 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<User> call, Throwable t) {
                 // something went completely south (like no internet CONNECTION)
-                Log.d("Error", t.getMessage());
             }
         });
     }
