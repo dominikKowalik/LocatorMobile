@@ -10,7 +10,16 @@ package com.kowalik.dominik.model;
  */
 
 public class Account {
-
+    @Override
+    public String toString() {
+        return "Account{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", email='" + email + '\'' +
+                ", user=" + user +
+                '}';
+    }
 
     private long id;
 

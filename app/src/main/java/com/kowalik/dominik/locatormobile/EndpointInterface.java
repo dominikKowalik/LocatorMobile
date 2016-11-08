@@ -21,27 +21,9 @@ import retrofit2.http.Path;
  */
 
 public interface EndpointInterface{
-
-
-    @GET("user")
-    Call<List<User>> getAllUsers();
-
-    @POST("register/{username}/{password}/{email}")
-    Call<Void> register(@Path("username") String username, @Path("password")
-            String password, @Path("email") String email);
-
     @POST("register")
     Call<Void> register(@Body Account account);
 
-    @POST("user")
-    Call<Void> insertUser(@Body User user);
-
-    @GET("user/{id}")
-    Call<User> getUser(@Path("id") long id);
-
-    @GET("user/{username}")
-    Call<User> getUser(@Path("username") String username);
-
-    @DELETE("user")
-    Call<Void> deleteAllUsers();
+    @GET("user/byname/{username}")
+    Call<User> login(@Path("username") String username);
 }

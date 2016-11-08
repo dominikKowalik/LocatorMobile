@@ -10,7 +10,7 @@ import android.location.Location;
  * Basic implementation of LocationInfo that helps exchange data with rest api
  */
 
-public class LocationInfo implements LocationInfoInterface{
+public class LocationInfo {
     double latitude;
     double longitude;
 

@@ -1,57 +1,52 @@
 package com.kowalik.dominik.model;
-
-import com.kowalik.dominik.model.LocationInfo;
-import com.kowalik.dominik.model.UserInterface;
-
-
-import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by dominik on 2016-10-22.
  */
 
-public class User implements UserInterface {
-    private String emailAdress;
-    private String name;
-    private String lastName;
+/**
+ * this class represents user's state which could be visible for another users
+ */
+
+
+
+public class User{
+
+    public void setLocationInfo(LocationInfo locationInfo) {
+        this.locationInfo = locationInfo;
+    }
+
+    public void setUsername(String username){
+        this.username = username;
+    }
+
+    private String username;
     private String statement;
+    private long id;
 
-    public User(String name, String lastName, String emailAdress, String password) {
-        this.name = name;
-        this.lastName = lastName;
-        this.emailAdress = emailAdress;
-        this.password = password;
+    public void setFriends(List<FriendsName> friends) {
+        this.friends = friends;
     }
 
-    public String getPassword() {
-        return password;
+    public void addFriend(FriendsName username){
+        friends.add(username);
     }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    private String password;
-
-    public void updateUser(User user) {
-        this.emailAdress = user.getEmailAdress();
-        this.friends = new ArrayList<>(user.getFriends());
-        this.lastName = user.getLastName();
-        this.name = user.getName();
-        this.locationInfo.setLatitude(user.getLocationInfo().getLatitude());
-        this.locationInfo.setLongitude(user.getLocationInfo().getLongitude());
-        this.statement = user.getStatement();
-        this.password = user.getPassword();
-    }
-
-    private List<User> friends;
+    private List<FriendsName> friends;
 
     private LocationInfo locationInfo;
 
-    private long id;
+    public String getUsername() {
+        return username;
+    }
 
-//    public static float distFrom(User user1, User user2) {
+    public User(String userName) {
+        this.username = userName;
+    }
+
+
+    //    public static float distFrom(User user1, User user2) {
 //        double earthRadius = 6371000; //meters
 //        double dLat = Math.toRadians(user2.getLocationInfo().getLatitude()-user1.getLocationInfo().getLatitude());
 //        double dLng = Math.toRadians(user2.getLocationInfo().getLongitude()-user2.getLocationInfo().getLongitude());
@@ -63,41 +58,11 @@ public class User implements UserInterface {
 //        float dist = (float) (earthRadius * c);
 //        return dist;
 //    }
-
-
-    public User() {
-    }
-
-    public String getEmailAdress() {
-        return emailAdress;
-    }
-
-    public void setEmailAdress(String emailAdress) {
-        this.emailAdress = emailAdress;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public  User(){
     }
 
     public LocationInfo getLocationInfo() {
         return locationInfo;
-    }
-
-    public void setLocationInfo(LocationInfo locationInfo) {
-        this.locationInfo = locationInfo;
     }
 
     public long getId() {
@@ -108,18 +73,6 @@ public class User implements UserInterface {
         this.id = id;
     }
 
-    @Override
-    public String toString() {
-        final StringBuffer sb = new StringBuffer("User{");
-        sb.append("emailAdress='").append(emailAdress).append('\'');
-        sb.append(", name='").append(name).append('\'');
-        sb.append(", lastName='").append(lastName).append('\'');
-        sb.append(", locationInfo=").append(locationInfo);
-        sb.append(", id=").append(id);
-        sb.append('}');
-        return sb.toString();
-    }
-
     public String getStatement() {
         return statement;
     }
@@ -128,20 +81,19 @@ public class User implements UserInterface {
         this.statement = statement;
     }
 
-    public List<User> getFriends() {
+    @Override
+    public String toString() {
+        final StringBuffer sb = new StringBuffer("User{");
+        sb.append(", username='").append(username).append('\'');
+        sb.append(", statement='").append(statement).append('\'');
+        sb.append(", friends=").append(friends);
+        sb.append(", locationInfo=").append(locationInfo);
+        sb.append(", id=").append(id);
+        sb.append('}');
+        return sb.toString();
+    }
+
+    public List<FriendsName> getFriends() {
         return friends;
     }
-
-    public void setFriends(List<User> friends) {
-        this.friends = friends;
-    }
-
-// TODO
-//    public boolean isExists() {
-//        return exists;
-//    }
-//
-//    public void setExists(boolean exists) {
-//        this.exists = exists;
-//    }
 }

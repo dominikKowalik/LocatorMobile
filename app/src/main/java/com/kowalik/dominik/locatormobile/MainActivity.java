@@ -22,6 +22,7 @@ import android.widget.TextView;
 import com.kowalik.dominik.model.Account;
 import com.kowalik.dominik.model.LocationInfo;
 import com.kowalik.dominik.model.User;
+import com.kowalik.dominik.web.ServiceGenerator;
 
 import java.util.Objects;
 
@@ -57,14 +58,13 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         usernameET = (EditText) findViewById(R.id.userNameEditText);
         emailET = (EditText) findViewById(R.id.emailEditText);
 
-        suggestToTurnOnGpsIfOff();
         //  onLocationChanged(getLocation());
 
         registerB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                suggestToTurnOnGpsIfOff();
-                    Account account = new Account();
+                Helpers.suggestToTurnOnGpsIfOff(context);
+                Account account = new Account();
                     account.setUsername(usernameET.getText().toString());
                     account.setEmail(emailET.getText().toString());
                     account.setPassword(passwordET.getText().toString());
@@ -72,36 +72,21 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
                     register(account);
             }
         });
-
-
 /**
  * Sending request and getting response using retrofit 2 library after clicking buttonGetData
  */
     }
-
-
     /**
      * Checking if gps is on. If gps is off its going to start new gps properties activity.
      */
-    private void suggestToTurnOnGpsIfOff() {
-        LocationManager service = (LocationManager) getSystemService(LOCATION_SERVICE);
-        boolean enabled = service
-                .isProviderEnabled(LocationManager.GPS_PROVIDER);
 
-        if (!enabled) {
-            Helpers.showText("Włącz GPS", context);
-            Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-            startActivity(intent);
-        }
-    }
 
     public void register(Account account) {
         final Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(getResources().getString(R.string.url))
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-
-        Log.d("Actuall locationInfo", account.toString());
+        Log.d("Actuall account", account.toString());
 
         EndpointInterface endpointInterface = retrofit.create(EndpointInterface.class);
         Call<Void> call = endpointInterface.register(account);
@@ -115,11 +100,9 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
                 }
                 Helpers.showText("Zostałeś Zarejestrowany", context);
             }
-
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
-                Helpers.showText("Nie Zostałeś Zarejestrowany", context);
-
+                Helpers.showText("Nie Zostałeś Zarejestrowany" + t.toString()   , context);
             }
         });
     }
