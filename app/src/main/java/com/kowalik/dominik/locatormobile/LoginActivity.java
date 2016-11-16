@@ -5,14 +5,15 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
-import com.kowalik.dominik.model.Account;
+import com.kowalik.dominik.logic.Helpers;
 import com.kowalik.dominik.model.User;
+import com.kowalik.dominik.web.EndpointInterface;
 import com.kowalik.dominik.web.ServiceGenerator;
 
 import java.util.Objects;
@@ -20,14 +21,29 @@ import java.util.Objects;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class LoginActivity extends AppCompatActivity {
 
     EditText passwordTextView, loginTextView;
     Button loginButton;
     Context context;
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        getMenuInflater().inflate(R.menu.main_activity, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        int id = item.getItemId();
+
+        if(Objects.equals(id,R.id.register)){
+            Intent registratrationActivity = new Intent(context,RegisterActivity.class);
+            startActivity(registratrationActivity);
+        }
+        return true;
+    }
 
 
     @Override
@@ -44,12 +60,10 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 if (Helpers.isGpsOn(context))
                     login(loginTextView.getText().toString(), passwordTextView.getText().toString());
                 else
                     Helpers.suggestToTurnOnGpsIfOff(context);
-
             }
         });
     }
@@ -71,6 +85,7 @@ public class LoginActivity extends AppCompatActivity {
                     SharedPreferences.Editor editor = settings.edit();
                     editor.putString("username", username);
                     editor.putString("password", password);
+                    editor.putString("status", response.body().getStatement());
                     editor.commit();
 
                     Intent mainScreenActivity = new Intent(context, MainScreenActivity.class);

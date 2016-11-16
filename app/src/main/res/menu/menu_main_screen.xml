@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/locationSender"
+        android:showAsAction="never"
+        android:title="@string/ustaw_swoja_lokalizacje"
+        ></item>
+
+    <item
+        android:id="@+id/friendsShower"
+        android:showAsAction="never"
+        android:title="@string/znajomi"
+        ></item>
+
+    <item android:id="@+id/refresh"
+        android:showAsAction="never"
+        android:title="@string/od_wie_lokalizacje">
+
+    </item>
+
+</menu>

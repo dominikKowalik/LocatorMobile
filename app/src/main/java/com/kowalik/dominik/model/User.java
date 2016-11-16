@@ -1,4 +1,5 @@
 package com.kowalik.dominik.model;
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -9,9 +10,7 @@ import java.util.List;
  * this class represents user's state which could be visible for another users
  */
 
-
-
-public class User{
+public class User implements Serializable{
 
     public void setLocationInfo(LocationInfo locationInfo) {
         this.locationInfo = locationInfo;

@@ -2,8 +2,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.dominik.interval.MainActivity">
-
-
-
-
+    <item
+        android:id="@+id/register"
+        android:showAsAction="never"
+        android:title="@string/zarejestruj_sie">
+    </item>
 </menu>

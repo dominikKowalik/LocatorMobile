@@ -1,32 +1,24 @@
 package com.kowalik.dominik.locatormobile;
 
 import android.content.Context;
-import android.content.Intent;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
+import com.kowalik.dominik.logic.Helpers;
 import com.kowalik.dominik.model.Account;
-import com.kowalik.dominik.model.LocationInfo;
-import com.kowalik.dominik.model.User;
-import com.kowalik.dominik.web.ServiceGenerator;
+import com.kowalik.dominik.web.EndpointInterface;
 
 import java.util.Objects;
 
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -34,7 +26,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 
-public class MainActivity extends AppCompatActivity implements LocationListener {
+public class RegisterActivity extends AppCompatActivity implements LocationListener {
 
     Button registerB;
     EditText passwordET, usernameET, emailET;
@@ -121,14 +113,11 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         } else {
             Helpers.showText("Lokalizacja nie dostępna\n", context);
         }
-
         return location;
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
-        getActionBar().hide();
         return true;
     }
 

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">LocatorMobile</string>
+    <string name="app_name">Lokalizer</string>
     <!--
     Values of buttons, labels
     -->
@@ -32,5 +32,11 @@
         completions."
     </string>
     <string name="title_activity_main2">Main2Activity</string>
+    <string name="zarejestruj_sie">zarejestruj sie</string>
+    <string name="powiedz_innym_co_u_ciebie">      Powiedz innym co u Ciebie!</string>
+    <string name="ustaw_swoja_lokalizacje">ustaw swoja lokalizacje</string>
+    <string name="znajomi">znajomi</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="od_wie_lokalizacje">odśwież lokalizacje</string>
 </resources>
 
